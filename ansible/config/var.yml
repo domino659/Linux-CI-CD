@@ -12,3 +12,5 @@ ssh:
     key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGRcoQQLa0PB7j9kjF2SJ8xpfW97nktu69AEdcejhDry domino659 15/02/2022
   - name: private_domino659
     key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPV2jqEqFgS3qjntWqseCQ/1nqywd/ueT8YsrztsUYY6 domino659 02/03/2022
+
+location: Shrine

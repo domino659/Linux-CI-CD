@@ -252,7 +252,7 @@ else
 fi
 export current_dir="%F{250}%~"
 export current_time="%F{15}%*"
-export current_zone="%B%F{195}Shrine%f%b"
+export current_zone="%B%F{195}{{ location }}%f%b"
 
 PROMPT=$'${prompt_pre1}${current_zone}${prompt_mid}${user_name}%F{75}%B@%b%f%m%F{75}%B:%F{45}${IPADDR}%b%f${prompt_mid}${current_dir}${prompt_end}\n${prompt_pre2}${current_time}${prompt_mid}%(?.%F{3}%?.%K{9}%F{0}%?%k%k)${prompt_end}$(git_super_status) ${user_symbol} '
 
