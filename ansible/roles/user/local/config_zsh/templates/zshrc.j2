@@ -1,0 +1,279 @@
+# ########################### #
+# 1. Mes alias                #
+# ########################### #
+# Modification et ajout de commande ls
+alias ls='ls --tabsize=0 --literal --color=auto --show-control-chars --human-readable --time-style="+%d/%m/%y %H:%M:%S" --group-directories-first'
+alias ll='ls -lL'
+alias la='ls -A'
+alias lla='ls -AlL'
+alias l='ls -CF'
+
+# Confirmation avant l'ecrasement pour les commande cp, mv et rm
+alias cp='cp --interactive'
+alias mv='mv --interactive'
+alias rm='rm --interactive'
+
+# Des alias pratiques
+alias df='df --human-readable'
+alias du='du --human-readable'
+alias ..='cd ..'
+alias c='clear -x'
+alias less='less --quiet'
+alias history='history -i 0'
+alias tail='grc tail'
+
+# ########################### #
+# 2. Completion               #
+# ########################### #
+autoload -Uz compinit
+compinit -d ~/.zcompdump
+
+# Schema de completion C
+unset list_ambiguous
+
+zstyle ':completion:*:*:*:*:*' menu select=2
+zstyle ':completion:*' auto-description 'specify: %d'
+zstyle ':completion:*' completer _expand _complete
+zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*' rehash true
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' use-compctl false
+zstyle ':completion:*' verbose true
+zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+zstyle ':completion:*:sudo:*' command-path /usr/local/sbin \
+                                           /usr/local/bin  \
+                                           /usr/sbin       \
+                                           /usr/bin        \
+                                           /sbin           \
+                                           /bin            \
+                                           /usr/X11R6/bin
+
+# ########################### #
+# 3. Config Historique        #
+# ########################### #
+HISTFILE=~/.history
+HISTSIZE=5000
+SAVEHIST=8000
+
+setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
+setopt hist_ignore_dups       # ignore duplicated commands history list
+setopt hist_ignore_space      # ignore commands that start with space
+setopt hist_verify            # show command with history expansion to user before running it
+#setopt share_history         # share command history data
+setopt append_history         # Ajout l'historique a la fin
+setopt share_history          # Partage l'historique sur plusieurs sessions zsh
+setopt inc_append_history     # Ajout chaque ligne a mesure de la frappe
+
+# ########################### #
+# 4. Config Diverses          #
+# ########################### #
+
+# configure le format de `time`
+export TIMEFMT=$'\nreal\t%E\nuser\t%U\nsys\t%S\ncpu\t%P'
+export WORDCHARS=${WORDCHARS//\/} # Don't consider certain characters part of the word
+# hide EOL sign ('%')
+export PROMPT_EOL_MARK=""
+export READNULLCMD=${PAGER:-/usr/bin/pager}
+export TERM_TITLE=$'\e]0;${debian_chroot:+($debian_chroot)}${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))}%n@%m: %~\a'
+
+# ########################### #
+# 5. Option generales ZSH     #
+# ########################### #
+setopt prompt_subst           # On ne veut pas de bip
+setopt nobeep                 # On ne veut pas de bip
+unsetopt beep                 # On ne veut pas de bip
+unsetopt hist_beep            # On ne veut pas de bip
+setopt clobber                # >| doit etre utilise pour ecraser un fichier
+unsetopt ignore_eof           # CTRL+D est equivalent a 'logout'
+setopt print_exit_value       # Affiche le code de sortie si différent de zero
+unsetopt rm_star_silent       # Demande de confirmation pour la commande rm
+setopt auto_remove_slash      # Suppression du '/' si c'est le dernier caratere
+setopt chase_links            # Traite correctement les liens synboliques
+setopt hist_verify            # Si on utilise '!' la commande est juste écriteet et non exécutée
+setopt auto_pushd             # L'exécution de 'cd' met le répertoire d'où l'on vient dnas la pile
+setopt pushd_ignore_dups      # Ignore les doublons dans la pile
+setopt pushd_silent           # N'affiche pas la pile apres un 'pushd'ou 'popd'
+setopt pushd_to_home          # Pushd sans argument -> 'pushd $HOME'
+unsetopt bg_nice              # Les jobs qui tournent en tache de fond sont nice a '0'
+unsetopt hup                  # ne pas envoyer 'HUP' aux jobs qui tournent quand le shell se feme
+setopt interactivecomments    # Active les commentaires comme 'bash'
+setopt autocd                 # change directory just by typing its name
+#setopt correct                # auto correct mistakes
+setopt interactivecomments    # allow comments in interactive mode
+setopt magicequalsubst        # enable filename expansion for arguments of the form ‘anything=expression’
+setopt nonomatch              # hide error message if there is no match for the pattern
+setopt notify                 # report the status of background jobs immediately
+setopt numericglobsort        # sort filenames numerically when it makes sense
+setopt promptsubst            # enable command substitution in prompt
+
+
+# ########################### #
+# 6. Mise en couleur pour ls  #
+# ########################### #
+if [ -x /usr/bin/dircolors ]
+then
+  if [ -r ~/.dir_colors ]
+  then
+    eval "$(dircolors ~/.dir_colors)"
+  elif [ -r /etc/dir_colors ]
+  then
+    eval "$(dircolors /etc/dir_colors)"
+  else
+    eval "$(dircolors)"
+  fi
+  export LESS_TERMCAP_mb=$'\E[1;31m'     # begin blink
+  export LESS_TERMCAP_md=$'\E[1;36m'     # begin bold
+  export LESS_TERMCAP_me=$'\E[0m'        # reset bold/blink
+  export LESS_TERMCAP_so=$'\E[01;33m'    # begin reverse video
+  export LESS_TERMCAP_se=$'\E[0m'        # reset reverse video
+  export LESS_TERMCAP_us=$'\E[1;32m'     # begin underline
+  export LESS_TERMCAP_ue=$'\E[0m'        # reset underline
+
+  # Take advantage of $LS_COLORS for completion as well
+  zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+  zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+fi
+
+# ########################### #
+# 7. Gestion des touches      #
+# ########################### #
+bindkey '^[[H' beginning-of-line                    # home
+bindkey '^[[F' end-of-line                          # end
+bindkey '^[[3~' delete-char                         # del
+bindkey '^[[2~' overwrite-mode                      # ins
+bindkey '^[[5~' history-search-backward             # pg up
+bindkey '^[[6~' history-search-forward              # pg down
+bindkey '^R' history-incremental-search-backward    # ctrl+r
+bindkey '^[[1;5C' forward-word                      # ctrl + ->
+bindkey '^[[1;5D' backward-word                     # ctrl + <-
+bindkey '^[[3;5~' kill-word                         # ctrl + del
+bindkey '^[[Z' undo                                 # shift + tab
+
+# ########################### #
+# 8. Prompt Options           #
+# ########################### #
+# Titre dans la fenetre d'xterm
+precmd () { print -Pn "\e]0;%n@%m: %~\a" }
+#precmd() {
+#  # Print the previously configured title
+#  print -Pnr -- "$TERM_TITLE"
+#
+#  # Print a new line before the prompt, but only if it is not the first line
+#  if [ "$NEWLINE_BEFORE_PROMPT" = yes ]; then
+#    if [ -z "$_NEW_LINE_BEFORE_PROMPT" ]; then
+#       _NEW_LINE_BEFORE_PROMPT=1
+#    else
+#      print ""
+#    fi
+#  fi
+#}
+
+# Activation de zsh-syntax-highlighting
+if [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+  . /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+  ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern)
+  ZSH_HIGHLIGHT_STYLES[default]=none
+  ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=red,bold
+  ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=cyan,bold
+  ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=green,underline
+  ZSH_HIGHLIGHT_STYLES[global-alias]=fg=magenta
+  ZSH_HIGHLIGHT_STYLES[precommand]=fg=green,underline
+  ZSH_HIGHLIGHT_STYLES[commandseparator]=fg=blue,bold
+  ZSH_HIGHLIGHT_STYLES[autodirectory]=fg=green,underline
+  ZSH_HIGHLIGHT_STYLES[path]=underline
+  ZSH_HIGHLIGHT_STYLES[path_pathseparator]=
+  ZSH_HIGHLIGHT_STYLES[path_prefix_pathseparator]=
+  ZSH_HIGHLIGHT_STYLES[globbing]=fg=blue,bold
+  ZSH_HIGHLIGHT_STYLES[history-expansion]=fg=blue,bold
+  ZSH_HIGHLIGHT_STYLES[command-substitution]=none
+  ZSH_HIGHLIGHT_STYLES[command-substitution-delimiter]=fg=magenta
+  ZSH_HIGHLIGHT_STYLES[process-substitution]=none
+  ZSH_HIGHLIGHT_STYLES[process-substitution-delimiter]=fg=magenta
+  ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=fg=magenta
+  ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=fg=magenta
+  ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=none
+  ZSH_HIGHLIGHT_STYLES[back-quoted-argument-delimiter]=fg=blue,bold
+  ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=yellow
+  ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=yellow
+  ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]=fg=yellow
+  ZSH_HIGHLIGHT_STYLES[rc-quote]=fg=magenta
+  ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=magenta
+  ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=magenta
+  ZSH_HIGHLIGHT_STYLES[back-dollar-quoted-argument]=fg=magenta
+  ZSH_HIGHLIGHT_STYLES[assign]=none
+  ZSH_HIGHLIGHT_STYLES[redirection]=fg=blue,bold
+  ZSH_HIGHLIGHT_STYLES[comment]=fg=black,bold
+  ZSH_HIGHLIGHT_STYLES[named-fd]=none
+  ZSH_HIGHLIGHT_STYLES[numeric-fd]=none
+  ZSH_HIGHLIGHT_STYLES[arg0]=fg=green
+  ZSH_HIGHLIGHT_STYLES[bracket-error]=fg=red,bold
+  ZSH_HIGHLIGHT_STYLES[bracket-level-1]=fg=blue,bold
+  ZSH_HIGHLIGHT_STYLES[bracket-level-2]=fg=green,bold
+  ZSH_HIGHLIGHT_STYLES[bracket-level-3]=fg=magenta,bold
+  ZSH_HIGHLIGHT_STYLES[bracket-level-4]=fg=yellow,bold
+  ZSH_HIGHLIGHT_STYLES[bracket-level-5]=fg=cyan,bold
+  ZSH_HIGHLIGHT_STYLES[cursor-matchingbracket]=standout
+fi
+
+# Activation de zsh-auto-suggestions base sur l'historique
+if [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    . /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    # change suggestion color
+    ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#999'
+fi
+
+# Activation de zsh-commande-not-found
+if [ -f /etc/zsh_command_not_found ]; then
+    . /etc/zsh_command_not_found
+fi
+
+# ########################### #
+# 9. Prompt Options           #
+# ########################### #
+if [ "$(id -u)" -eq 0 ]; then
+    export user_name="%F{40}%n%f"
+    export user_symbol="%F{9}❯%f"
+    export prompt_pre1="%F{9}╭──[%f"
+    export prompt_pre2="%F{9}╰─[%f"
+    export prompt_end="%F{9}]%f"
+    export prompt_mid="%F{9}]─[%f"
+    export prompt_user="%{$fg_bold[cyan]%}"
+else
+    export user_name="%F{026}%n%f"
+    export user_symbol="%F{75}❯%f"
+    export prompt_pre1="%F{75}╭──[%f"
+    export prompt_pre2="%F{75}╰─[%f"
+    export prompt_end="%F{75}]%f"
+    export prompt_mid="%F{75}]─[%f"
+fi
+export current_dir="%F{250}%~"
+export current_time="%F{15}%*"
+export current_zone="%B%F{195}Shrine%f%b"
+
+PROMPT=$'${prompt_pre1}${current_zone}${prompt_mid}${user_name}%F{75}%B@%b%f%m%F{75}%B:%F{45}${IPADDR}%b%f${prompt_mid}${current_dir}${prompt_end}\n${prompt_pre2}${current_time}${prompt_mid}%(?.%F{3}%?.%K{9}%F{0}%?%k%k)${prompt_end}$(git_super_status) ${user_symbol} '
+
+
+# ########################### #
+# 10.Fonctions                #
+# ########################### #
+# lecture coloree de logs
+logview()
+{
+    ccze -A < $1 | less -R
+}
+
+# lecture coloree de logs en directfunction logview()
+logtail()
+{
+    tail -f $1 | ccze
+}
+
+# ########################### #
+# 11.Prompt GIT               #
+# ########################### #
+source /etc/zsh/zgit
+

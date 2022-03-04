@@ -1,0 +1,17 @@
+---
+- hosts: vm
+  name: Setup Workspace
+  remote_user: root
+  serial: 1
+  become: true
+
+  vars_files:
+   - config/var.yml
+
+  roles:
+    - { role: web/installation_apache2 , tags: ['web'] }
+    - { role: web/index, tags: ['web'] }
+
+
+  #Créer vhost apache2 qui repondra a ganymede.gwath-land.fr et afficher une page specifique
+  # certificat autosigné ansible

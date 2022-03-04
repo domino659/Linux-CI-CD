@@ -1,0 +1,19 @@
+---
+- name: Create zshrc skel
+  ansible.builtin.template:
+    src: .zshrc.j2
+    dest: /etc/skel/.zshrc
+    mode: '0644'
+
+- name: Copy zsh config
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/zsh"
+    dest: /etc
+    force: yes
+    mode: '0644'
+
+- name: Create zshrc config
+  ansible.builtin.template:
+    src: zshrc.j2
+    dest: /etc/zsh/zshrc
+    mode: '0644'

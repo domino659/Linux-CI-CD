@@ -1,0 +1,42 @@
+if [[ -z "$PATH" || "$PATH" == "/bin:/usr/bin" ]]
+then
+    export PATH="/usr/local/bin:/usr/bin:/bin:/usr/games"
+fi
+
+# Editeur par default
+export VISUAL="vim"
+export EDITOR="vim"
+
+# Gestion de la langue
+export LANG="en_US.UTF-8"
+export LANGUAGE="en_US.UTF-8"
+export LC_CTYPE="fr_FR.UTF-8"
+export LC_NUMERIC="fr_FR.UTF-8"
+export LC_TIME="fr_FR.UTF-8"
+export LC_COLLATE="fr_FR.UTF-8"
+export LC_MANETARY="fr_FR.UTF-8"
+export LC_MESSAGE="fr_FR.UTF-8"
+export LC_PAPER="fr_FR.UTF-8"
+export LC_NAME="fr_FR.UTF-8"
+export LC_ADDRESS="fr_FR.UTF-8"
+export LC_TELEPHONE="fr_FR.UTF-8"h
+export LC_MEASUREMENT="fr_FR.UTF-8"
+export LC_IDENTIFICATION="fr_FR.UTF-8"
+export LC_ALL="fr_FR.UTF-8"
+
+# Configuration du proxy sans mot de passe
+#export http_proxy="http://proxy.exemple.or:8080"
+#export https_proxy="http://proxy.exemple.or:8080"
+#export ftp_proxy="http://proxy.exemple.or:8080"
+
+# Configuration du proxy avec mot de passe
+#export http_proxy="http://login:passwd@proxy.exemple.or:8080"
+#export http_proxy="http://login:passwd@proxy.exemple.or:8080"
+#export http_proxy="http://login:passw@proxy.exemple.or:8080"
+
+# Pas de proxy pour les sites
+#export no_proxy="exenple.org,10.0.0.0/24"
+
+# Recuperation adresse IP locale
+export DEVICE=$(/bin/ip route | grep -i -m 1 "default" | awk '{ print $6 }')
+export IPADDR=$(/bin/ip addr show dev $DEVICE | grep -i -m 1 "inet " | awk '{ print $2 }' | cut -d'/' -f1)

@@ -1,0 +1,29 @@
+---
+- name: Create Group
+  ansible.builtin.group:
+    name: "{{ user.group }}"
+    gid: 1000
+    state: present
+
+- name: Create User
+  ansible.builtin.user:
+    name: "{{ user.name }}"
+    uid: 1000
+    group: "{{ user.group }}"
+    state: present
+    shell: "/bin/{{ user.shell }}"
+    comment: "{{ user.comment }}"
+
+- name: Load User SSH
+  ansible.posix.authorized_key:
+    user: "{{ user.name }}"
+    key: "{{ user.ssh_work_key }}"
+
+# Local
+- name: Create ssh config
+  ansible.builtin.template:
+    src: config.j2
+    dest: /home/{{ user.name }}/.ssh/config
+    mode: '0644'
+
+# MAAAARCHHHE PAAAAS le faire que en local

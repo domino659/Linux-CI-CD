@@ -1,0 +1,11 @@
+#Variable communes a tous les serveurs
+[all:vars]
+# ansible_ssh_user=domino659
+# ansible_user=domino659
+ansible_ssh_user=root
+ansible_user=root
+ansible_port=22
+
+[vm]
+# makemake ansible_host=178.32.244.255
+ganymede.gwath-land.fr

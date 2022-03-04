@@ -1,0 +1,15 @@
+---
+
+- name: Remove file
+  ansible.builtin.file:
+    path: /etc/foo.txt
+    state: absent
+
+- name: Index
+  ansible.builtin.template:
+    dest: /var/www/html/index.html
+    src: decree.j2
+    owner: www-data
+    group: www-data
+    mode: 0644
+    backup: yes
