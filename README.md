@@ -1,1 +1,5 @@
-# Lincux-Test
+# Linux-Test
+
+### Required:
+- Terraform
+- Ansible
