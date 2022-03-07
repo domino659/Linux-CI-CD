@@ -1,0 +1,25 @@
+---
+- name: Installation des outils additionel
+  ansible.builtin.apt:
+    state: present
+    update_cache: yes
+    name:
+      - ksh
+      - vim
+      - htop
+      - iftop
+      - tree
+      - net-tools
+      - screen
+      - python3-pexpect
+      - python3-cryptography
+      - ccze
+      - gnupg2
+      - wget
+      - curl
+      - grc
+      - molly-guard
+      - sysstat
+      - software-properties-common
+      - apt-transport-https
+      - figlet

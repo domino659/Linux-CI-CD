@@ -17,32 +17,10 @@
         - zsh
         - zsh-syntax-highlighting
         - zsh-autosuggestions
-        - ksh
-        - vim
-        - htop
-        - iftop
-        - tree
-        - net-tools
-        - screen
-        - python3-pexpect
-        - python3-cryptography
         - sudo
-        - ccze
-        - gnupg2
-        - wget
-        - curl
-        - grc
-        - molly-guard
 
-  # Local
   roles:
-    - { role: user/local/additional_package }
+    - { role: user/additional_package, tags: ['additional'] }
     # User
-    - { role: user/local/config_zsh, tags: ['user',] }
-    - { role: user/local/my_user, tags: ['user'] }
-
-  # Remote
-  # roles:
-  #   # User
-  #   - { role: user/remote/zconfig_zsh, tags: ['user',] }
-  #   - { role: user/remote/my_user, tags: ['user'] }
+    - { role: user/config_zsh, tags: ['user'] }
+    - { role: user/my_user, tags: ['user'] }
