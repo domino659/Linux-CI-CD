@@ -2,6 +2,7 @@
 user:
   name: domino659
   group: domino659
+  sudo_password: pingu
   comment: Suprem Pinguin Dictator
   shell: zsh
   ssh_work_name: msion_axians
@@ -14,3 +15,9 @@ ssh:
     key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPV2jqEqFgS3qjntWqseCQ/1nqywd/ueT8YsrztsUYY6 domino659 02/03/2022
 
 location: Shrine
+
+app_user: "domino659"
+http_host: "top_of_the_iceberg"
+http_conf: "top_of_the_iceberg.conf"
+http_port: "80"
+disable_default: true

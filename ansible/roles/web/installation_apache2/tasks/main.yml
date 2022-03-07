@@ -1,12 +1,32 @@
 ---
-
-- name: Installation Apache2
+- name: Install Apache2
   ansible.builtin.apt:
     name: apache2
-    state: latest
     update_cache: yes
-    
-- name: Ensure apache is running
-  ansible.builtin.service:
-    name: apache2
-    state: started
+    state: latest
+
+- name: Create document root
+  ansible.builtin.file:
+    path: "/var/www/{{ http_host }}"
+    state: directory
+    owner: "{{ app_user }}"
+    mode: '0755'
+
+- name: Copy index test page
+  ansible.builtin.template:
+    src: "templates/index.html.j2"
+    dest: "/var/www/{{ http_host }}/index.html"
+
+- name: Set up Apache virtuahHost
+  ansible.builtin.template:
+    src: "templates/apache.conf.j2"
+    dest: "/etc/apache2/sites-available/{{ http_conf }}"
+
+- name: Enable new site
+  ansible.builtin.command: /usr/sbin/a2ensite {{ http_conf }}
+  notify: Reload Apache
+
+- name: Disable default Apache site
+  shell: /usr/sbin/a2dissite 000-default.conf
+  when: disable_default
+  notify: Reload Apache

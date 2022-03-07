@@ -1,4 +1,9 @@
 ---
+- name: Set root shell
+  ansible.builtin.user:
+    name: root
+    shell: "/bin/zsh"
+
 - name: Create Group
   ansible.builtin.group:
     name: "{{ user.group }}"
@@ -9,7 +14,7 @@
   ansible.builtin.user:
     name: "{{ user.name }}"
     uid: 1000
-    group: "{{ user.group }}"
+    group: "{{ user.group }}, wheel"
     state: present
     shell: "/bin/{{ user.shell }}"
     comment: "{{ user.comment }}"
@@ -19,11 +24,8 @@
     user: "{{ user.name }}"
     key: "{{ user.ssh_work_key }}"
 
-# Local
 - name: Create ssh config
   ansible.builtin.template:
     src: config.j2
     dest: /home/{{ user.name }}/.ssh/config
     mode: '0644'
-
-# MAAAARCHHHE PAAAAS le faire que en local

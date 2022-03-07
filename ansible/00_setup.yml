@@ -18,9 +18,11 @@
         - zsh-syntax-highlighting
         - zsh-autosuggestions
         - sudo
+        - grc
+        - ccze
 
   roles:
     - { role: user/additional_package, tags: ['additional'] }
     # User
-    - { role: user/config_zsh, tags: ['user'] }
-    - { role: user/my_user, tags: ['user'] }
+    - { role: user/config_zsh }
+    - { role: user/my_user }

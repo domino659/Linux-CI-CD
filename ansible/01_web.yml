@@ -9,9 +9,7 @@
    - config/var.yml
 
   roles:
-    - { role: web/installation_apache2 , tags: ['web'] }
-    - { role: web/index, tags: ['web'] }
-
+    - { role: web/installation_apache2 }
 
   # Créer vhost apache2 qui repondra a ganymede.gwath-land.fr et afficher une page specifique
   # certificat autosigné ansible

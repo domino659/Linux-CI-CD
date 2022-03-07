@@ -1,0 +1,6 @@
+---
+- name: Create Group Sudo
+  ansible.builtin.group:
+    name: wheel 
+    gid: 500
+    state: present
