@@ -13,5 +13,5 @@
     - { role: web/index, tags: ['web'] }
 
 
-  #Créer vhost apache2 qui repondra a ganymede.gwath-land.fr et afficher une page specifique
+  # Créer vhost apache2 qui repondra a ganymede.gwath-land.fr et afficher une page specifique
   # certificat autosigné ansible
