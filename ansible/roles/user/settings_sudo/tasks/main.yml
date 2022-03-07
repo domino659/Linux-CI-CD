@@ -1,6 +1,18 @@
 ---
-- name: Create Group Sudo
+- name: Create Group wheel
   ansible.builtin.group:
     name: wheel 
     gid: 500
     state: present
+
+- name: Set sudo without password for wheel
+  ansible.builtin.copy:
+    content: '%wheel ALL=(ALL:ALL) NOPASSWD:ALL'
+    dest: /etc/sudoers.d/wheel_nopasswd
+    mode: 0440
+    validate: '/usr/sbin/visudo -cf %s'
+
+- name: Set root shell
+  ansible.builtin.user:
+    name: root
+    shell: "/bin/zsh"

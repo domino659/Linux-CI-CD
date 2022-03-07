@@ -1,10 +1,5 @@
 ---
-- name: Set root shell
-  ansible.builtin.user:
-    name: root
-    shell: "/bin/zsh"
-
-- name: Create Group
+- name: Create User Group
   ansible.builtin.group:
     name: "{{ user.group }}"
     gid: 1000
@@ -14,7 +9,7 @@
   ansible.builtin.user:
     name: "{{ user.name }}"
     uid: 1000
-    group: "{{ user.group }}, wheel"
+    groups: "{{ user.group }}, wheel"
     state: present
     shell: "/bin/{{ user.shell }}"
     comment: "{{ user.comment }}"

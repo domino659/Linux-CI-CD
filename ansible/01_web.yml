@@ -12,4 +12,5 @@
     - { role: web/installation_apache2 }
 
   # Créer vhost apache2 qui repondra a ganymede.gwath-land.fr et afficher une page specifique
+  # apache en ssl 
   # certificat autosigné ansible

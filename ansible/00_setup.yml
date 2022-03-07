@@ -1,6 +1,6 @@
 ---
 - hosts: vm
-  name: Setup Workspace
+  name: Setup Workspace Installation
   remote_user: root
   serial: 1
   become: true
@@ -23,6 +23,17 @@
 
   roles:
     - { role: user/additional_package, tags: ['additional'] }
-    # User
+
+- hosts: vm
+  name: Setup Workspace Parametrage
+  remote_user: root
+  serial: 1
+  become: true
+
+  vars_files:
+   - config/var.yml
+
+  roles:
+    - { role: user/settings_sudo }
     - { role: user/config_zsh }
     - { role: user/my_user }
