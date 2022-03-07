@@ -14,3 +14,5 @@
   # Créer vhost apache2 qui repondra a ganymede.gwath-land.fr et afficher une page specifique
   # apache en ssl 
   # certificat autosigné ansible
+  # ssl 443
+  # cle certificat privé certificat publique
