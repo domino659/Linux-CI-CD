@@ -30,3 +30,31 @@
   shell: /usr/sbin/a2dissite 000-default.conf
   when: disable_default
   notify: Reload Apache
+
+# SSL
+- name: Create SSL Directoru
+  ansible.builtin.file:
+    path: "/var/www/{{ http_host }}/ssl"
+    state: directory
+    mode: '0755'
+
+# Autre moyen que utiliser pip
+- name: Installation pip
+  ansible.builtin.apt:
+    name:
+      - pip 
+
+- name: Install pyOpenSSL
+  pip:
+    name: pyopenssl
+
+- name: Generate an OpenSSH keypair with the default values (ed25519)
+  community.crypto.openssl_privatekey:
+    type: Ed25519
+    path: "/var/www/{{ http_host }}/ssl/server.key"
+
+- name: Create self-signed certificate
+  community.crypto.x509_certificate:
+    path: "/var/www/{{ http_host }}/ssl/server.crt"
+    privatekey_path: "/var/www/{{ http_host }}/ssl/server.key"
+    provider: selfsigned
