@@ -1,8 +1,34 @@
-<VirtualHost *:{{ http_port }}>
+<VirtualHost *:80>
    ServerAdmin webmaster@localhost
    ServerName {{ http_host }}
    ServerAlias www.{{ http_host }}
    DocumentRoot /var/www/{{ http_host }}
    ErrorLog ${APACHE_LOG_DIR}/error.log
    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+
+
+<VirtualHost *:443>
+
+   ServerAdmin webmaster@localhost
+   ServerName {{ http_host }}
+   ServerAlias www.{{ http_host }}
+   DocumentRoot /var/www/{{ http_host }}
+
+   CustomLog ${APACHE_LOG_DIR}/access.log combined
+   ErrorLog ${APACHE_LOG_DIR}/error.log
+   LogLevel warn
+
+   SSLEngine On
+   SSLCertificateFile /etc/ssl/certifssl.crt
+   SSLCertificateKeyFile /etc/ssl/certifssl.key
+
+   <Directory/>
+      require
+      Allow from all
+      Options +Indexes -ExecCGI +FollowSymLinks
+      AllowOverride All
+   </Directory>
+
 </VirtualHost>
