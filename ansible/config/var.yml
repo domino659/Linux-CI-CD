@@ -19,5 +19,5 @@ location: Shrine
 app_user: "domino659"
 http_host: "top_of_the_iceberg"
 http_conf: "top_of_the_iceberg.conf"
-http_port: "80"
+http_ssl: true
 disable_default: true

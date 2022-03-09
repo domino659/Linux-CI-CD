@@ -37,24 +37,25 @@
     path: "/var/www/{{ http_host }}/ssl"
     state: directory
     mode: '0755'
+  when: http_ssl|bool 
 
-# Autre moyen que utiliser pip
-- name: Installation pip
+- name: Install OpenSSL
   ansible.builtin.apt:
+    state: present
+    update_cache: yes
     name:
-      - pip 
-
-- name: Install pyOpenSSL
-  pip:
-    name: pyopenssl
+      - openssl
+  when: http_ssl|bool 
 
 - name: Generate an OpenSSH keypair with the default values (ed25519)
   community.crypto.openssl_privatekey:
     type: Ed25519
     path: "/var/www/{{ http_host }}/ssl/server.key"
+  when: http_ssl|bool 
 
 - name: Create self-signed certificate
   community.crypto.x509_certificate:
     path: "/var/www/{{ http_host }}/ssl/server.crt"
     privatekey_path: "/var/www/{{ http_host }}/ssl/server.key"
     provider: selfsigned
+  when: http_ssl|bool 

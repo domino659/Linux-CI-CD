@@ -1,4 +1,5 @@
-<VirtualHost *:80>
+<VirtualHost *:{{ '443' if (http_ssl|bool) else '80' }}>
+
    ServerAdmin webmaster@localhost
    ServerName {{ http_host }}
    ServerAlias www.{{ http_host }}
@@ -7,4 +8,14 @@
    CustomLog ${APACHE_LOG_DIR}/access.log combined
    ErrorLog ${APACHE_LOG_DIR}/error.log
    LogLevel warn
+
+   {% if ( http_ssl|bool ) %}
+   # SSL configuration
+   SSLEngine on
+   SSLProtocol all -SSLv2
+   SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
+   SSLCertificateFile "/var/www/{{ http_host }}/ssl/server.crt"
+   SSLCertificateKeyFile "/var/www/{{ http_host }}/ssl/server.key"
+   {% endif %}
+
 </VirtualHost>
