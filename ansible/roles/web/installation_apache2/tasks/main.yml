@@ -1,21 +1,65 @@
 ---
+#APACHE
 - name: Install Apache2
   ansible.builtin.apt:
     name: apache2
     update_cache: yes
     state: latest
 
-- name: Create document root
+#SSL
+- name: Enable ssl
+  community.general.apache2_module:
+    state: present
+    name: ssl
+  when: http_ssl|bool
+
+- name: Install OpenSSL and python3-cryptography
+  ansible.builtin.apt:
+    state: present
+    update_cache: yes
+    name:
+      - openssl
+      - python3-cryptography
+  when: http_ssl|bool
+
+- name: Create SSL Directory Key
   ansible.builtin.file:
-    path: "/var/www/{{ http_host }}"
+    path: "/etc/ssl/private/{{ http_host }}"
     state: directory
-    owner: "{{ app_user }}"
+    mode: '0755'
+  when: http_ssl|bool
+
+- name: Create SSL Directory Certs
+  ansible.builtin.file:
+    path: "/etc/ssl/certs/{{ http_host }}"
+    state: directory
+    mode: '0755'
+  when: http_ssl|bool  
+
+- name: Generate an OpenSSH keypair with the default values (ed25519)
+  community.crypto.openssl_privatekey:
+    type: Ed25519
+    path: "/etc/ssl/private/{{ http_host }}/server.key"
+  when: http_ssl|bool 
+
+- name: Create self-signed certificate
+  community.crypto.x509_certificate:
+    path: "/etc/ssl/certs/{{ http_host }}/server.crt"
+    privatekey_path: "/etc/ssl/private/{{ http_host }}/server.key"
+    provider: selfsigned
+  when: http_ssl|bool
+
+#VHOST
+- name: Create vhost directory
+  ansible.builtin.file:
+    path: "/var/www/{{ v_host_file }}"
+    state: directory
     mode: '0755'
 
-- name: Copy index test page
+- name: Create index page
   ansible.builtin.template:
     src: "templates/index.html.j2"
-    dest: "/var/www/{{ http_host }}/index.html"
+    dest: "/var/www/{{ v_host_file }}/index.html"
 
 - name: Set up Apache virtuahHost
   ansible.builtin.template:
@@ -30,32 +74,3 @@
   shell: /usr/sbin/a2dissite 000-default.conf
   when: disable_default
   notify: Reload Apache
-
-# SSL
-- name: Create SSL Directoru
-  ansible.builtin.file:
-    path: "/var/www/{{ http_host }}/ssl"
-    state: directory
-    mode: '0755'
-  when: http_ssl|bool 
-
-- name: Install OpenSSL
-  ansible.builtin.apt:
-    state: present
-    update_cache: yes
-    name:
-      - openssl
-  when: http_ssl|bool 
-
-- name: Generate an OpenSSH keypair with the default values (ed25519)
-  community.crypto.openssl_privatekey:
-    type: Ed25519
-    path: "/var/www/{{ http_host }}/ssl/server.key"
-  when: http_ssl|bool 
-
-- name: Create self-signed certificate
-  community.crypto.x509_certificate:
-    path: "/var/www/{{ http_host }}/ssl/server.crt"
-    privatekey_path: "/var/www/{{ http_host }}/ssl/server.key"
-    provider: selfsigned
-  when: http_ssl|bool 

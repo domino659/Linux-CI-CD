@@ -1,9 +1,26 @@
-<VirtualHost *:{{ '443' if (http_ssl|bool) else '80' }}>
+<VirtualHost *:80>
+
+   ServerName {{ http_host }}
+   {% if ( http_ssl|bool ) %}
+   Redirect / https://www.{{ http_host }}
+   {% else %}
+   ServerAdmin webmaster@localhost 
+   ServerAlias www.{{ http_host }}
+   DocumentRoot /var/www/{{ http_host }}
+   {% endif %}
+
+   CustomLog ${APACHE_LOG_DIR}/access.log combined
+   ErrorLog ${APACHE_LOG_DIR}/error.log
+   LogLevel warn
+
+</VirtualHost>
+
+<VirtualHost *:{{ '443' if (http_ssl|bool) }}>
 
    ServerAdmin webmaster@localhost
    ServerName {{ http_host }}
    ServerAlias www.{{ http_host }}
-   DocumentRoot /var/www/{{ http_host }}
+   DocumentRoot /var/www/pingu
 
    CustomLog ${APACHE_LOG_DIR}/access.log combined
    ErrorLog ${APACHE_LOG_DIR}/error.log
@@ -12,10 +29,8 @@
    {% if ( http_ssl|bool ) %}
    # SSL configuration
    SSLEngine on
-   SSLProtocol all -SSLv2
-   SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
-   SSLCertificateFile "/var/www/{{ http_host }}/ssl/server.crt"
-   SSLCertificateKeyFile "/var/www/{{ http_host }}/ssl/server.key"
+   SSLCertificateFile "/etc/ssl/certs/{{ http_host }}/server.crt"
+   SSLCertificateKeyFile "/etc/ssl/private/{{ http_host }}/server.key"
    {% endif %}
 
 </VirtualHost>
