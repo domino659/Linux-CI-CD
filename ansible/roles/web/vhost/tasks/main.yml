@@ -1,0 +1,25 @@
+---
+- name: Create vhost www directory
+  ansible.builtin.file:
+    path: "/var/www/{{ host_file }}"
+    state: directory
+    mode: '0755'
+
+- name: Create index and file index page
+  ansible.builtin.template:
+    src: "templates/index.html.j2"
+    dest: "/var/www/{{ host_file }}/index.html"
+
+- name: Set up Apache virtuahHost
+  ansible.builtin.template:
+    src: "templates/apache.conf.j2"
+    dest: "/etc/apache2/sites-available/{{ host_file }}.conf"
+
+- name: Enable vhost
+  ansible.builtin.command: /usr/sbin/a2ensite {{ host_file }}
+  notify: Reload Apache
+
+- name: Disable default site
+  shell: /usr/sbin/a2dissite 000-default.conf
+  when: disable_default
+  notify: Reload Apache

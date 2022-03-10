@@ -1,0 +1,12 @@
+---
+- name: Create .zshrc skel for users
+  ansible.builtin.template:
+    src: .zshrc.j2
+    dest: /home/{{ user.name }}/.zshrc
+    mode: '0644'
+
+- name: Create .bahsrc skel for users (optional)
+  ansible.builtin.template:
+    src: .bashrc.j2
+    dest: /home/{{ user.name }}/.bashrc
+    mode: '0644'

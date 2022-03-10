@@ -1,16 +1,9 @@
 ---
-- name: Create zshrc skel for users
+- name: Create empty zshrc skel for users
   ansible.builtin.template:
-    src: .zshrc.j2
+    src: .zshrc_empty.j2
     dest: /etc/skel/.zshrc
     mode: '0644'
-
-# Only for local
-# - name: Create zshrc skel for root
-#   ansible.builtin.template:
-#     src: .zshrc.j2
-#     dest: /root/.zshrc
-#     mode: '0644'
 
 - name: Copy zsh config
   ansible.builtin.copy:

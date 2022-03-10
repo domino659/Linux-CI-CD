@@ -6,7 +6,7 @@
    {% else %}
    ServerAdmin webmaster@localhost 
    ServerAlias www.{{ http_host }}
-   DocumentRoot /var/www/{{ http_host }}
+   DocumentRoot /var/www/{{ host_file }}
    {% endif %}
 
    CustomLog ${APACHE_LOG_DIR}/access.log combined
@@ -20,7 +20,7 @@
    ServerAdmin webmaster@localhost
    ServerName {{ http_host }}
    ServerAlias www.{{ http_host }}
-   DocumentRoot /var/www/pingu
+   DocumentRoot /var/www/{{ host_file }}
 
    CustomLog ${APACHE_LOG_DIR}/access.log combined
    ErrorLog ${APACHE_LOG_DIR}/error.log
@@ -29,8 +29,8 @@
    {% if ( http_ssl|bool ) %}
    # SSL configuration
    SSLEngine on
-   SSLCertificateFile "/etc/ssl/certs/{{ http_host }}/server.crt"
-   SSLCertificateKeyFile "/etc/ssl/private/{{ http_host }}/server.key"
+   SSLCertificateFile "/etc/ssl/certs/{{ host_file }}/server.crt"
+   SSLCertificateKeyFile "/etc/ssl/private/{{ host_file }}/server.key"
    {% endif %}
 
 </VirtualHost>

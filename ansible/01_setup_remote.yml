@@ -21,9 +21,6 @@
         - grc
         - ccze
 
-  roles:
-    - { role: user/additional_package, tags: ['additional'] }
-
 - hosts: vm
   name: Setup Workspace Parametrage
   remote_user: root
@@ -34,6 +31,6 @@
    - config/var.yml
 
   roles:
-    - { role: user/settings_sudo }
-    - { role: user/config_zsh }
+    - { role: user/sudo }
+    - { role: user/zsh }
     - { role: user/my_user }

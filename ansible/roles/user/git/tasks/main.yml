@@ -1,0 +1,6 @@
+---
+- name: Create .gitconfig for user
+  ansible.builtin.template:
+    src: .gitconfig.j2
+    dest: /home/{{ user.name }}/.gitconfig
+    mode: '0644'

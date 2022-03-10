@@ -1,0 +1,44 @@
+---
+- hosts: localhost
+  name: Setup Workspace Installation
+  remote_user: root
+  serial: 1
+  become: true
+
+  vars_files:
+   - config/var.yml
+
+  tasks:
+  - name: Installation des outils de base
+    ansible.builtin.apt:
+      state: present
+      update_cache: yes
+      name:
+        - zsh
+        - zsh-syntax-highlighting
+        - zsh-autosuggestions
+        - sudo
+        - grc
+        - ccze
+
+  roles:
+    - role: user/additional_package
+      when: additional_package|bool
+
+- hosts: localhost
+  name: Setup Workspace Parametrage
+  remote_user: root
+  serial: 1
+  become: true
+
+  vars_files:
+   - config/var.yml
+
+  roles:
+    - { role: user/sudo }
+    - { role: user/zsh }
+    - role: user/ssh
+      when: add_ssh|bool
+    - { role: user/my_user }
+    - role: user/git
+      when: add_git|bool
