@@ -1,0 +1,12 @@
+{
+    "useTabs": false,
+    "useTabsComment": "Indent lines with tabs instead of spaces.",
+    "printWidth": 80,
+    "printWidthComment": "Specify the length of line that the printer will wrap on.",
+    "tabWidth": 2,
+    "tabWidthComment": "Specify the number of spaces per indentation-level.",
+    "singleQuote": false,
+    "singleQuoteComment": "Use single quotes instead of double quotes.",
+    "endOfLine" : "lf",
+    "endOfLineComment" : "Set end of line to Windows 'crlf' or Linux 'lf'."
+}
