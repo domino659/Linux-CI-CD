@@ -8,6 +8,9 @@
   vars_files:
    - config/var.yml
 
+  var:
+    location: Shrine
+
   tasks:
   - name: Installation des outils de base
     ansible.builtin.apt:
@@ -37,8 +40,7 @@
   roles:
     - { role: user/sudo }
     - { role: user/zsh }
-    - role: user/ssh
-      when: add_ssh|bool
+    - {role: user/ssh, when: add_ssh }
     - { role: user/my_user }
-    - role: user/git
-      when: add_git|bool
+    - { role: user/link, when: user.drive|length > 0 }
+    - {role: user/git, when: add_git }

@@ -1,7 +1,5 @@
 ---
 # Debian user
-### Terminal
-location: Shrine
 # If is remote put to remote
 additional_package: true
 add_ssh: true
@@ -14,6 +12,7 @@ user:
   comment: Suprem Pinguin Dictator
   # Choice custom zsh or native bash
   shell: zsh
+  drive: g
   ssh_work_name: msion_axians
   ssh_work_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGRcoQQLa0PB7j9kjF2SJ8xpfW97nktu69AEdcejhDry domino659 15/02/2022
 
@@ -37,13 +36,13 @@ git:
   name: domino659
   email: martin@sionfamily.com
 
+# SSL
+ssl:
+  name: Suprem Pingu Dictator
+  email: pingu@banquise.com
+
 # Apache2 vhost
 http_host: "ganymede.gwath-land.fr"
 host_file: pingu
 http_ssl: true
 disable_default: true
-
-# SSL
-ssl:
-  name: Suprem Pingu Dictator
-  email: pingu@banquise.com
