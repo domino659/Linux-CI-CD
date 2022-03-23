@@ -1,0 +1,25 @@
+---
+- name: Create User Group
+  ansible.builtin.group:
+    name: "{{ optionalUser.group }}"
+    gid: 1001
+    state: present
+
+- name: Create User
+  ansible.builtin.user:
+    name: "{{ optionalUser.name }}"
+    uid: 1001
+    groups: "{{ optionalUser.group }}, wheel"
+    state: present
+    shell: "/bin/{{ optionalUser.shell }}"
+
+- name: Load User SSH
+  ansible.posix.authorized_key:
+    user: "{{ optionalUser.name }}"
+    key: "{{ optionalUser.ssh_work_key }}"
+
+- name: Create ssh config
+  ansible.builtin.template:
+    src: config.j2
+    dest: /home/{{ optionalUser.name }}/.ssh/config
+    mode: '0644'

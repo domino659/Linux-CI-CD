@@ -24,6 +24,7 @@ resource "proxmox_lxc" "my_container" {
   ssh_public_keys = <<-EOT
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHo+vkYbYsM1IRjfh18KbkP0inFL6LfVZV5aKxm2jwhU gwatharta@oxygene-14/10/2020
     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGRcoQQLa0PB7j9kjF2SJ8xpfW97nktu69AEdcejhDry domino659 15/02/2022
+    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINc6myG0zQ7C6+b/ArX0LLZ8vQBhXPWL1e8QxShDMZHZ elaouni.wissam@gmail.com
   EOT
 
   start           = true

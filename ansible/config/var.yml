@@ -2,6 +2,7 @@
 # Debian user
 ### Terminal
 location: Shrine
+# If is remote put to remote
 additional_package: true
 add_ssh: true
 add_git: true
@@ -15,6 +16,15 @@ user:
   shell: zsh
   ssh_work_name: msion_axians
   ssh_work_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGRcoQQLa0PB7j9kjF2SJ8xpfW97nktu69AEdcejhDry domino659 15/02/2022
+
+optionalUser:
+  name: nolex
+  group: nolex
+  sudo_password: root
+  # Choice custom zsh or native bash
+  shell: zsh
+  ssh_work_name: id_ed25519
+  ssh_work_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINc6myG0zQ7C6+b/ArX0LLZ8vQBhXPWL1e8QxShDMZHZ elaouni.wissam@gmail.com
 
 # Private ssh key
 ssh: 
