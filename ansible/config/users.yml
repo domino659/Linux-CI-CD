@@ -13,7 +13,6 @@ users:
       - vm
     use_sudo: yes
     use_sudo_nopass: yes
-
     add_ssh: true
     ssh:
       - name: msion_axians
@@ -22,7 +21,6 @@ users:
       - name: private_domino659
         key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPV2jqEqFgS3qjntWqseCQ/1nqywd/ueT8YsrztsUYY6 domino659 02/03/2022
         type: private
-
     add_git: true
     git:
       name: domino659
@@ -32,7 +30,7 @@ users:
       location: g
     # if hostname == localhost
 
-additional_package: true
+
 
 # - name: nolex
 #   group: nolex

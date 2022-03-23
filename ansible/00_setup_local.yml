@@ -1,17 +1,13 @@
 ---
 - hosts: all
-  name: Setup Workspace Installation
+  name: Setup Workspace
   remote_user: root
   serial: 1
   become: true
 
   vars_files:
-   - config/var.yml
-   - config/users.yml
-
-  # If localhost Shine else Remote
-  var:
-    location: Shrine
+    - config/var.yml
+    - config/users.yml
 
   tasks:
   - name: Installation package de base
@@ -27,7 +23,7 @@
         - ccze
 
   roles:
-    - { role: user/additional_packages, when: ansible_hostname == localhost }
+    - { role: user/additional_packages, when: inventory_hostname == localhost }
 
 - hosts: all
   name: Setup Workspace Parametrage
@@ -36,15 +32,19 @@
   become: true
 
   vars_files:
-   - config/var.yml
+    - config/var.yml
+    - config/users.yml
+
 
   roles:
     - { role: user/sudo }
     - { role: user/zsh }
-    # If local
-    - {role: user/ssh, when: add_ssh }
+    - { role: user/ssh, when: (inventory_hostname == localhost) }
     - { role: user/my_user }
-      # If local
-    - { role: user/link, when: user.drive|length > 0 }
-      # If local
-    - {role: user/git, when: add_git }
+    - { role: user/link, when: (inventory_hostname == localhost) }
+    - { role: user/git, when: (inventory_hostname == localhost) }
+
+
+# - { role: user/ssh, when: (inventory_hostname == localhost) and (add_ssh) }
+# - { role: user/link, when: (inventory_hostname == localhost) and (user.drive|length > 0) }
+# - { role: user/git, when: (inventory_hostname == localhost) and (add_git) }

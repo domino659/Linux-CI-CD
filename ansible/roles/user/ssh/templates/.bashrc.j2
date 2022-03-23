@@ -123,7 +123,6 @@ if [ $? -ne 0 ];then
         echo "ERROR: Could no launch ssh-agent" >&2
     fi
     . $SSH_AGENT_CONF > /dev/null
-    FOR USER 1 ? comment préciser ca ?
     {% for key in ssh %}
     ssh-add ~/.ssh/{{ key.name }}
     {% endfor %}

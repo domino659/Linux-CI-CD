@@ -1,4 +1,7 @@
 ---
+localhost: 127.0.0.1
+location: "{{ 'Shrine' if inventory_hostname == localhost else 'Remote' }}"
+
 # SSL
 ssl:
   name: Suprem Pingu Dictator

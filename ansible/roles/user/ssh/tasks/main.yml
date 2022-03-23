@@ -1,12 +1,12 @@
 ---
-- name: Create .zshrc for users
+- name: Create .zshrc for users with autoload ssh
   ansible.builtin.template:
     src: .zshrc.j2
     dest: /home/{{ item.name }}/.zshrc
     mode: '0644'
   with_items: "{{ users }}"
 
-- name: Create .bahsrc for users (optional)
+- name: Create .bahsrc for users with autoload ssh (optional)
   ansible.builtin.template:
     src: .bashrc.j2
     dest: /home/{{ item.name }}/.bashrc

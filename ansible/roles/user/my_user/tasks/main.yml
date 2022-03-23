@@ -10,7 +10,7 @@
     name: "{{ item.name }}"
     groups: "{{ item.group }}, wheel"
     state: present
-    shell: {{ default_shell }}
+    shell: "{{ default_shell }}"
   with_items: "{{ users }}"
 
 - name: Load User SSH
