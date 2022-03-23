@@ -1,0 +1,44 @@
+default_shell: /bin/zsh
+
+# domino always, other in certain condition
+users:
+  - name: domino659
+    pswd: pingu
+    comment: "Martin SION"
+    primary_group: domino659
+    groups:
+      - wheel
+    servers:
+      - home
+      - vm
+    use_sudo: yes
+    use_sudo_nopass: yes
+
+    add_ssh: true
+    ssh:
+      - name: msion_axians
+        key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGRcoQQLa0PB7j9kjF2SJ8xpfW97nktu69AEdcejhDry domino659 15/02/2022
+        type: work
+      - name: private_domino659
+        key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPV2jqEqFgS3qjntWqseCQ/1nqywd/ueT8YsrztsUYY6 domino659 02/03/2022
+        type: private
+
+    add_git: true
+    git:
+      name: domino659
+      email: martin@sionfamily.com
+    drive:
+      statue: yes
+      location: g
+    # if hostname == localhost
+
+additional_package: true
+
+# - name: nolex
+#   group: nolex
+#   sudo_password: root
+#   comment: Wiss
+#   # Choice custom zsh or native bash
+#   shell: zsh
+#   ssh_work_name: id_ed25519
+#   ssh_work_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINc6myG0zQ7C6+b/ArX0LLZ8vQBhXPWL1e8QxShDMZHZ elaouni.wissam@gmail.com

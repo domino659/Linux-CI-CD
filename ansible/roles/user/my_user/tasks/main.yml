@@ -1,26 +1,27 @@
 ---
 - name: Create User Group
   ansible.builtin.group:
-    name: "{{ user.group }}"
-    gid: 1000
+    name: "{{ item.primary_group }}"
     state: present
+  with_items: "{{ users }}"
 
 - name: Create User
   ansible.builtin.user:
-    name: "{{ user.name }}"
-    uid: 1000
-    groups: "{{ user.group }}, wheel"
+    name: "{{ item.name }}"
+    groups: "{{ item.group }}, wheel"
     state: present
-    shell: "/bin/{{ user.shell }}"
-    comment: "{{ user.comment }}"
+    shell: {{ default_shell }}
+  with_items: "{{ users }}"
 
 - name: Load User SSH
   ansible.posix.authorized_key:
-    user: "{{ user.name }}"
-    key: "{{ user.ssh_work_key }}"
+    user: "{{ item.name }}"
+    key: "{{ item.ssh.work_key }}"
+  with_items: "{{ users }}"
 
 - name: Create ssh config
   ansible.builtin.template:
     src: config.j2
-    dest: /home/{{ user.name }}/.ssh/config
+    dest: /home/{{ item.name }}/.ssh/config
     mode: '0644'
+  with_items: "{{ users }}"

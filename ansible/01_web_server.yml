@@ -10,6 +10,7 @@
 
   roles:
     - { role: web/installation_apache2 }
-    - role: web/ssl
-      when: http_ssl|bool
+    - { role: web/ssl, when: http_ssl }
+      # old
+      # when: http_ssl|bool
     - { role: web/vhost }

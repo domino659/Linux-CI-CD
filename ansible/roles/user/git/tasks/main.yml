@@ -2,5 +2,6 @@
 - name: Create .gitconfig for user
   ansible.builtin.template:
     src: .gitconfig.j2
-    dest: /home/{{ user.name }}/.gitconfig
+    dest: /home/{{ item.name }}/.gitconfig
     mode: '0644'
+  with_items: "{{ users }}"

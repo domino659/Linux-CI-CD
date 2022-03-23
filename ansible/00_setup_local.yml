@@ -1,5 +1,5 @@
 ---
-- hosts: localhost
+- hosts: all
   name: Setup Workspace Installation
   remote_user: root
   serial: 1
@@ -7,12 +7,14 @@
 
   vars_files:
    - config/var.yml
+   - config/users.yml
 
+  # If localhost Shine else Remote
   var:
     location: Shrine
 
   tasks:
-  - name: Installation des outils de base
+  - name: Installation package de base
     ansible.builtin.apt:
       state: present
       update_cache: yes
@@ -25,10 +27,9 @@
         - ccze
 
   roles:
-    - role: user/additional_package
-      when: additional_package|bool
+    - { role: user/additional_packages, when: ansible_hostname == localhost }
 
-- hosts: localhost
+- hosts: all
   name: Setup Workspace Parametrage
   remote_user: root
   serial: 1
@@ -40,7 +41,10 @@
   roles:
     - { role: user/sudo }
     - { role: user/zsh }
+    # If local
     - {role: user/ssh, when: add_ssh }
     - { role: user/my_user }
+      # If local
     - { role: user/link, when: user.drive|length > 0 }
+      # If local
     - {role: user/git, when: add_git }
