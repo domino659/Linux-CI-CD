@@ -1,15 +1,16 @@
 ---
-- hosts: localhost
-  name: Setup Workspace Installation
+- hosts: local
+  name: Setup Workspace
   remote_user: root
   serial: 1
   become: true
 
   vars_files:
-   - config/var.yml
+    - config/var.yml
+    - config/users.yml
 
   tasks:
-  - name: Installation des outils de base
+  - name: Installation package de base
     ansible.builtin.apt:
       state: present
       update_cache: yes
@@ -22,23 +23,22 @@
         - ccze
 
   roles:
-    - role: user/additional_package
-      when: additional_package|bool
+    - { role: user/additional_packages, when: inventory_hostname == localhost }
 
-- hosts: localhost
+- hosts: local
   name: Setup Workspace Parametrage
   remote_user: root
   serial: 1
   become: true
 
   vars_files:
-   - config/var.yml
+    - config/var.yml
+    - config/users.yml
 
   roles:
     - { role: user/sudo }
     - { role: user/zsh }
-    - role: user/ssh
-      when: add_ssh|bool
     - { role: user/my_user }
-    - role: user/git
-      when: add_git|bool
+    - { role: user/ssh, when: (inventory_hostname == localhost) }
+    - { role: user/link, when: (inventory_hostname == localhost) }
+    - { role: user/git, when: (inventory_hostname == localhost) }

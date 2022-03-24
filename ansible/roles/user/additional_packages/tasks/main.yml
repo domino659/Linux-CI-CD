@@ -1,5 +1,5 @@
 ---
-- name: Installation des outils additionel
+- name: Installation des packages additionel
   ansible.builtin.apt:
     state: present
     update_cache: yes

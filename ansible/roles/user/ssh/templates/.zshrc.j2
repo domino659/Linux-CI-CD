@@ -1,4 +1,4 @@
-# Created by newuser for 5.8
+# Created by {{ item.name }} for 5.8
 
 SSH_AGENT_CONF="$HOME/.ssh/agent"
 if [ -e "$SSH_AGENT_CONF" ];then
@@ -11,7 +11,7 @@ if [ $? -ne 0 ];then
         echo "ERROR: Could no launch ssh-agent" >&2
     fi
     . $SSH_AGENT_CONF > /dev/null
-    {% for key in ssh %}
+    {% for key in item.ssh %}
     ssh-add ~/.ssh/{{ key.name }}
     {% endfor %}
 fi

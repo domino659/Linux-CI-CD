@@ -1,49 +1,13 @@
 ---
-# Debian user
-### Terminal
-location: Shrine
-# If is remote put to remote
-additional_package: true
-add_ssh: true
-add_git: true
+localhost: 127.0.0.1
 
-user:
-  name: domino659
-  group: domino659
-  sudo_password: pingu
-  comment: Suprem Pinguin Dictator
-  # Choice custom zsh or native bash
-  shell: zsh
-  ssh_work_name: msion_axians
-  ssh_work_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGRcoQQLa0PB7j9kjF2SJ8xpfW97nktu69AEdcejhDry domino659 15/02/2022
-
-optionalUser:
-  name: nolex
-  group: nolex
-  sudo_password: root
-  # Choice custom zsh or native bash
-  shell: zsh
-  ssh_work_name: id_ed25519
-  ssh_work_key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINc6myG0zQ7C6+b/ArX0LLZ8vQBhXPWL1e8QxShDMZHZ elaouni.wissam@gmail.com
-
-# Private ssh key
-ssh: 
-  - name: msion_axians
-    key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGRcoQQLa0PB7j9kjF2SJ8xpfW97nktu69AEdcejhDry domino659 15/02/2022
-  - name: private_domino659
-    key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPV2jqEqFgS3qjntWqseCQ/1nqywd/ueT8YsrztsUYY6 domino659 02/03/2022
-
-git:
-  name: domino659
-  email: martin@sionfamily.com
+# SSL
+ssl:
+  name: Suprem Pingu Dictator
+  email: pingu@banquise.com
 
 # Apache2 vhost
 http_host: "ganymede.gwath-land.fr"
 host_file: pingu
 http_ssl: true
 disable_default: true
-
-# SSL
-ssl:
-  name: Suprem Pingu Dictator
-  email: pingu@banquise.com

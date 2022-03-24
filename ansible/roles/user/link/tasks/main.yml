@@ -1,0 +1,10 @@
+---
+- name: Create symbolic link between WLS and Drive
+  ansible.builtin.file:
+    src: "/mnt/{{ item.drive.location }}/Mon\ Drive/Code"
+    dest: "/home/{{ item.name }}/Drive"
+    owner: domino659
+    group: domino659
+    state: link
+  when: item.drive.statue
+  with_items: "{{ users }}"

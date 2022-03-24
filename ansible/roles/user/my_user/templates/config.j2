@@ -6,6 +6,6 @@ Host *
         ServerAliveInterval 30
 
 Host    ganymede.gwath-land.fr
-        User {{ user.name }}
-        IdentityFile ~/.ssh/{{ user.ssh_work_name }}
+        User {{ item.name }}
+        IdentityFile ~/.ssh/{{ item.ssh[0].name }}
         Port 22
