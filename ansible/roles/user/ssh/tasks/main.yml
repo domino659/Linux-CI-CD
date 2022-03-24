@@ -4,6 +4,7 @@
     src: .zshrc.j2
     dest: /home/{{ item.name }}/.zshrc
     mode: '0644'
+  when: item.ssh_statue
   with_items: "{{ users }}"
 
 - name: Create .bahsrc for users with autoload ssh (optional)
@@ -11,4 +12,5 @@
     src: .bashrc.j2
     dest: /home/{{ item.name }}/.bashrc
     mode: '0644'
+  when: item.ssh_statue
   with_items: "{{ users }}"

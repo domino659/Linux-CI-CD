@@ -8,7 +8,8 @@
 - name: Create User
   ansible.builtin.user:
     name: "{{ item.name }}"
-    groups: "{{ item.group }}, wheel"
+    group: "{{ item.primary_group }}"
+    groups: "{{ item.groups }}"
     state: present
     shell: "{{ default_shell }}"
   with_items: "{{ users }}"
@@ -16,7 +17,7 @@
 - name: Load User SSH
   ansible.posix.authorized_key:
     user: "{{ item.name }}"
-    key: "{{ item.ssh.work_key }}"
+    key: "{{ item.ssh[0].key }}"
   with_items: "{{ users }}"
 
 - name: Create ssh config

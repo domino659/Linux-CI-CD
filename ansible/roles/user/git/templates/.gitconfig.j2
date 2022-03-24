@@ -1,8 +1,6 @@
 [user]
-        {% for item in users %}
         email = {{ item.git.email }}
         name = {{ item.git.name }}
-        {% endfor %}
 
 [push]
         default = current

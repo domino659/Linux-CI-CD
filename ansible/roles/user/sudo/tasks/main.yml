@@ -5,10 +5,23 @@
     gid: 500
     state: present
 
+- name: Set sudo for wheel
+  ansible.builtin.copy:
+    content: '%wheel ALL=(ALL:ALL) ALL'
+    dest: /etc/sudoers.d/wheel
+    mode: 0440
+    validate: '/usr/sbin/visudo -cf %s'
+
+- name: Create Group wheel_no_pswd
+  ansible.builtin.group:
+    name: wheel_no_pswd 
+    gid: 501
+    state: present
+
 - name: Set sudo without password for wheel
   ansible.builtin.copy:
-    content: '%wheel ALL=(ALL:ALL) NOPASSWD:ALL'
-    dest: /etc/sudoers.d/wheel_nopasswd
+    content: '%wheel_no_pswd ALL=(ALL:ALL) NOPASSWD:ALL'
+    dest: /etc/sudoers.d/wheel_no_pswd
     mode: 0440
     validate: '/usr/sbin/visudo -cf %s'
 

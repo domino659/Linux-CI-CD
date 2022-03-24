@@ -1,36 +1,42 @@
 default_shell: /bin/zsh
+location: "{{ 'Shrine' if inventory_hostname == localhost else 'Remote' }}"
 
-# domino always, other in certain condition
 users:
   - name: domino659
     pswd: pingu
     comment: "Martin SION"
     primary_group: domino659
-    groups:
-      - wheel
+    # pas implementer
     servers:
       - home
       - vm
-    use_sudo: yes
-    use_sudo_nopass: yes
-    add_ssh: true
+
+    # Give user secondary group:
+    # wheel: Access to sudo
+    # wheel_no_pswd: Access to sudo without password
+    groups:
+      - wheel_no_pswd
+      
+    # Set ssh keys
+    ssh_statue: true
     ssh:
+        # Work Key
       - name: msion_axians
         key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGRcoQQLa0PB7j9kjF2SJ8xpfW97nktu69AEdcejhDry domino659 15/02/2022
-        type: work
+        # Private Key
       - name: private_domino659
         key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPV2jqEqFgS3qjntWqseCQ/1nqywd/ueT8YsrztsUYY6 domino659 02/03/2022
-        type: private
-    add_git: true
+    
+    # Set git config
     git:
+      statue: true
       name: domino659
       email: martin@sionfamily.com
+    
+    # Set symbolic link to a drive
     drive:
-      statue: yes
+      statue: true
       location: g
-    # if hostname == localhost
-
-
 
 # - name: nolex
 #   group: nolex

@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: local
   name: Setup Workspace
   remote_user: root
   serial: 1
@@ -25,7 +25,7 @@
   roles:
     - { role: user/additional_packages, when: inventory_hostname == localhost }
 
-- hosts: all
+- hosts: local
   name: Setup Workspace Parametrage
   remote_user: root
   serial: 1
@@ -35,16 +35,10 @@
     - config/var.yml
     - config/users.yml
 
-
   roles:
     - { role: user/sudo }
     - { role: user/zsh }
-    - { role: user/ssh, when: (inventory_hostname == localhost) }
     - { role: user/my_user }
+    - { role: user/ssh, when: (inventory_hostname == localhost) }
     - { role: user/link, when: (inventory_hostname == localhost) }
     - { role: user/git, when: (inventory_hostname == localhost) }
-
-
-# - { role: user/ssh, when: (inventory_hostname == localhost) and (add_ssh) }
-# - { role: user/link, when: (inventory_hostname == localhost) and (user.drive|length > 0) }
-# - { role: user/git, when: (inventory_hostname == localhost) and (add_git) }
