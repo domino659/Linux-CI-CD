@@ -6,5 +6,5 @@
     owner: domino659
     group: domino659
     state: link
-  when: item.drive.statue
+  when: (item.ssh_statue is defined and 'true') and (item.servers | intersect(group_names))
   with_items: "{{ users }}"

@@ -1,11 +1,12 @@
 ---
-- hosts: local
+- hosts: all
   name: Setup Workspace
   remote_user: root
   serial: 1
   become: true
 
   vars_files:
+    - config/vault.yml
     - config/var.yml
     - config/users.yml
 
@@ -25,13 +26,14 @@
   roles:
     - { role: user/additional_packages, when: inventory_hostname == localhost }
 
-- hosts: local
+- hosts: all
   name: Setup Workspace Parametrage
   remote_user: root
   serial: 1
   become: true
 
   vars_files:
+    - config/vault.yml
     - config/var.yml
     - config/users.yml
 

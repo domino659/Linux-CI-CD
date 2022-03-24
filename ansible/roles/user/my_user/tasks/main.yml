@@ -3,21 +3,25 @@
   ansible.builtin.group:
     name: "{{ item.primary_group }}"
     state: present
+  when: item.servers | intersect(group_names)
   with_items: "{{ users }}"
 
 - name: Create User
   ansible.builtin.user:
     name: "{{ item.name }}"
+    password: "{{ item.password if item.password is defined else '!' }}"
     group: "{{ item.primary_group }}"
     groups: "{{ item.groups }}"
     state: present
     shell: "{{ default_shell }}"
+  when: item.servers | intersect(group_names)
   with_items: "{{ users }}"
 
 - name: Load User SSH
   ansible.posix.authorized_key:
     user: "{{ item.name }}"
     key: "{{ item.ssh[0].key }}"
+  when: item.servers | intersect(group_names)
   with_items: "{{ users }}"
 
 - name: Create ssh config
@@ -25,4 +29,5 @@
     src: config.j2
     dest: /home/{{ item.name }}/.ssh/config
     mode: '0644'
+  when: item.servers | intersect(group_names)
   with_items: "{{ users }}"

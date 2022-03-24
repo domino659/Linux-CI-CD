@@ -5,11 +5,13 @@
     update_cache: yes
     name:
       - git
+  when: (item.ssh_statue is defined and 'true') and (item.servers | intersect(group_names))
+  with_items: "{{ users }}"
 
 - name: Create .gitconfig for user
   ansible.builtin.template:
     src: .gitconfig.j2
     dest: /home/{{ item.name }}/.gitconfig
     mode: '0644'
-  when: item.git.statue
+  when: (item.ssh_statue is defined and 'true') and (item.servers | intersect(group_names))
   with_items: "{{ users }}"
