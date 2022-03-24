@@ -26,6 +26,7 @@
   roles:
     - { role: user/additional_packages, when: inventory_hostname == localhost }
 
+
 - hosts: all
   name: Setup Workspace Parametrage
   remote_user: root
