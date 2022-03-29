@@ -38,17 +38,17 @@ users:
       statue: true
       location: h
 
-
-  - name: Zeubi
-    password: root
-    comment: "Zeubi"
-    primary_group: Zeubi
-    servers:
-      - vm
+# Exemple for creating new user
+  # - name: Zeubi
+  #   password: root
+  #   comment: "Zeubi"
+  #   primary_group: Zeubi
+  #   servers:
+  #     - vm
     
-    groups:
-      - wheel
+  #   groups:
+  #     - wheel
 
-    ssh:
-      - name: msion_axians
-        key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGRcoQQLa0PB7j9kjF2SJ8xpfW97nktu69AEdcejhDry domino659 15/02/2022
+  #   ssh:
+  #     - name: msion_axians
+  #       key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGRcoQQLa0PB7j9kjF2SJ8xpfW97nktu69AEdcejhDry domino659 15/02/2022

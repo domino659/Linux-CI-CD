@@ -1,0 +1,12 @@
+---
+- hosts: vm
+  name: Setup application Web
+  remote_user: root
+  serial: 1
+  become: true
+
+  vars_files:
+   - config/var.yml
+
+  roles:
+    - { role: web/application_web }
