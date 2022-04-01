@@ -1,1 +1,43 @@
 ---
+- name: Installation de git
+  ansible.builtin.apt:
+    state: present
+    update_cache: yes
+    name:
+      - git
+
+- name: Create Web Application File
+  ansible.builtin.file:
+    path: /home/{{ item.name }}/Pingu_Web_App
+    state: directory
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: '644'
+  with_items: "{{ users }}"
+
+- name: Reset de Pingu Web App
+  ansible.builtin.file:
+    path: /home/{{ item.name }}/Pingu_Web_App
+    state: absent
+  with_items: "{{ users }}"
+
+- name: Clone Pingu Web App from Git
+  ansible.builtin.git:
+    repo: "{{ git_web_app }}"
+    dest: /home/{{ item.name }}/Pingu_Web_App
+    accept_hostkey: yes
+    clone: yes
+  with_items: "{{ users }}"
+
+- name: Supression de .git
+  ansible.builtin.file:
+    path: /home/{{ item.name }}/Pingu_Web_App/.git
+    state: absent
+  with_items: "{{ users }}"
+
+- name: Creation de .htaccess
+  ansible.builtin.template:
+    src: .htaccess.j2
+    dest: /home/{{ item.name }}/Pingu_Web_App/.htaccess
+    mode: '0644'
+  with_items: "{{ users }}"
