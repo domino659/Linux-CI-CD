@@ -1,4 +1,36 @@
 ---
+# Group
+- name: Create Group wheel
+  ansible.builtin.group:
+    name: wheel
+    gid: 500
+    state: present
+
+- name: Create Group wheel_no_pswd
+  ansible.builtin.group:
+    name: wheel_no_pswd
+    gid: 501
+    state: present
+
+- name: Set sudo for wheel
+  ansible.builtin.copy:
+    content: "%wheel ALL=(ALL:ALL) ALL"
+    dest: /etc/sudoers.d/wheel
+    mode: 0440
+    validate: "/usr/sbin/visudo -cf %s"
+
+- name: Set sudo without password for wheel
+  ansible.builtin.copy:
+    content: "%wheel_no_pswd ALL=(ALL:ALL) NOPASSWD:ALL"
+    dest: /etc/sudoers.d/wheel_no_pswd
+    mode: 0440
+    validate: "/usr/sbin/visudo -cf %s"
+
+- name: Set root shell
+  ansible.builtin.user:
+    name: root
+    shell: "/bin/zsh"
+
 - name: Create User Group
   ansible.builtin.group:
     name: "{{ item.primary_group }}"
@@ -6,6 +38,7 @@
   when: item.servers | intersect(group_names)
   with_items: "{{ users }}"
 
+# User
 - name: Create User
   ansible.builtin.user:
     name: "{{ item.name }}"
@@ -28,6 +61,6 @@
   ansible.builtin.template:
     src: config.j2
     dest: /home/{{ item.name }}/.ssh/config
-    mode: '0644'
+    mode: "0644"
   when: item.servers | intersect(group_names)
   with_items: "{{ users }}"

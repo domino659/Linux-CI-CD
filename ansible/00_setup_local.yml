@@ -11,21 +11,20 @@
     - config/users.yml
 
   tasks:
-  - name: Installation package de base
-    ansible.builtin.apt:
-      state: present
-      update_cache: yes
-      name:
-        - zsh
-        - zsh-syntax-highlighting
-        - zsh-autosuggestions
-        - sudo
-        - grc
-        - ccze
+    - name: Installation package de base
+      ansible.builtin.apt:
+        state: present
+        update_cache: yes
+        name:
+          - zsh
+          - zsh-syntax-highlighting
+          - zsh-autosuggestions
+          - sudo
+          - grc
+          - ccze
 
   roles:
     - { role: user/additional_packages, when: inventory_hostname == localhost }
-
 
 - hosts: all
   name: Setup Workspace Parametrage
@@ -39,9 +38,8 @@
     - config/users.yml
 
   roles:
-    - { role: user/sudo }
     - { role: user/zsh }
-    - { role: user/my_user }
+    - { role: user/user }
     - { role: user/ssh, when: (inventory_hostname == localhost) }
     - { role: user/link, when: (inventory_hostname == localhost) }
     - { role: user/git, when: (inventory_hostname == localhost) }
